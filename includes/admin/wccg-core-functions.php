@@ -32,7 +32,7 @@ function wccg_generate_coupons( $number, $args = array() ) {
 	$number_of_coupons = absint( $number );
 	for ( $i = 0; $i < $number_of_coupons; $i++ ) {
 
-		$coupon_code = wccg_get_random_coupon();
+		$coupon_code = wccg_get_random_coupon($args['coupon_prefix']);
 
 		// Insert coupon post
 		$wpdb->query( $wpdb->prepare( "INSERT INTO $wpdb->posts SET
@@ -123,7 +123,7 @@ function wccg_generate_coupons( $number, $args = array() ) {
  *
  * @return string Random coupon code.
  */
-function wccg_get_random_coupon() {
+function wccg_get_random_coupon($prefix = '') {
 
 	// Generate unique coupon code
 	$random_coupon = '';
@@ -138,7 +138,7 @@ function wccg_get_random_coupon() {
 	$random_coupon = implode( '-', str_split( strtoupper( $random_coupon ), 4 ) );
 
 	// Ensure coupon code is correctly formatted with WC Core filter
-	$coupon_code = apply_filters( 'woocommerce_coupon_code', $random_coupon );
+	$coupon_code = apply_filters( 'woocommerce_coupon_code', $prefix . $random_coupon );
 
 	// Additional filter that only executes for this plugin, not for other WC Core coupons
 	$random_code = apply_filters( 'woocommerce_coupon_generator_random_coupon_code', $coupon_code );
@@ -229,7 +229,7 @@ function wccg_export_coupons() {
 
 	$quantity = absint( $_GET['quantity'] );
 	$results = $wpdb->get_results(
-		$wpdb->prepare( "SELECT post_title FROM $wpdb->posts WHERE post_type='shop_coupon' AND post_status='publish' ORDER BY post_date DESC LIMIT 0, %d", $quantity )
+		$wpdb->prepare( "SELECT post_title FROM $wpdb->posts WHERE post_type='shop_coupon' ORDER BY post_date DESC LIMIT 0, %d", $quantity )
 	);
 
 	$codes = wp_list_pluck( $results, 'post_title' );

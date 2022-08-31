@@ -29,7 +29,11 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 										<input type="number" min="1" autofocus class="short" style="width: 200px;" name="number_of_coupons" id="coupon_quantity" value="1" placeholder="10">
 										<img class="help_tip" data-tip='<?php _e( 'Number of coupons to generate in this batch', 'coupon-generator-for-woocommerce' ); ?>' src="<?php echo WC()->plugin_url(); ?>/assets/images/help.png" height="16" width="16" />
 									</p>
-
+									<p class="form-field number_of_coupons ">
+										<label for="coupon_prefix"><?php _e( 'Coupons prefix', 'coupon-generator-for-woocommerce' ); ?></label>
+										<input type="text" autofocus class="short" style="width: 200px;" name="coupon_prefix" id="coupon_prefix" value="">
+										<img class="help_tip" data-tip='<?php _e( 'Prefix for each coupon', 'coupon-generator-for-woocommerce' ); ?>' src="<?php echo WC()->plugin_url(); ?>/assets/images/help.png" height="16" width="16" />
+									</p>
 									<?php do_action( 'woocommerce_coupon_generator_coupon_options' ); ?>
 
 								</div><!-- .woocommerce_options_panel -->
